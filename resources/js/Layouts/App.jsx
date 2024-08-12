@@ -4,6 +4,8 @@ import { Link } from '@inertiajs/react';
 import formatNumber from '@/methods/formatNumber';
 import Modal from '@/Components/Modal';
 import axios from 'axios';
+import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
+import ApplicationLogo from '@/Components/ApplicationLogo';
 
 export default function App({ user, children }) {
     const [replenishmentModal, setReplenishmentModal] = useState(false);
@@ -39,17 +41,26 @@ export default function App({ user, children }) {
             <nav className="bg-white border-b border-gray-100">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">
-                        <div className="flex items-center">
-                            {user && (
-                                <>
-                                    <div className="hidden space-x-3 sm:-my-px sm:flex">
-                                        <h2 className='text-gray-600 font-bold text-lg'>{formatNumber(user.balance)} руб</h2>
-                                    </div>
-                                    
-                                    <button onClick={() => setReplenishmentModal(true)} className='ml-2 px-2 py-1 bg-blue-500 text-sm text-white font-bold rounded hover:bg-blue-600 transition duration-300'>Пополнить</button>
-                                </>
-                            )}
+                        <div className="flex">
+                            <div className="hidden shrink-0 sm:flex items-center mr-5">
+                                <Link href="/">
+                                    <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
+                                </Link>
+                            </div>
+
+                            <div className="flex items-center">
+                                {user && (
+                                    <>
+                                        <div className="space-x-3 my-px flex">
+                                            <h2 className='text-gray-600 font-bold text-lg'>{formatNumber(user.balance)} руб</h2>
+                                            
+                                            <button onClick={() => setReplenishmentModal(true)} className='ml-2 px-2 py-1 bg-blue-500 text-sm text-white font-bold rounded hover:bg-blue-600 transition duration-300'>Пополнить</button>
+                                        </div>
+                                    </>
+                                )}
+                            </div>
                         </div>
+
 
                         <div className="hidden sm:flex sm:items-center sm:ms-6">
                             {user ? (
@@ -80,9 +91,9 @@ export default function App({ user, children }) {
                                         </Dropdown.Trigger>
 
                                         <Dropdown.Content>
-                                            <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
+                                            <Dropdown.Link href={route('profile.edit')}>Профиль</Dropdown.Link>
                                             <Dropdown.Link href={route('logout')} method="post" as="button">
-                                                Log Out
+                                                Выйти
                                             </Dropdown.Link>
                                         </Dropdown.Content>
                                     </Dropdown>
@@ -123,27 +134,37 @@ export default function App({ user, children }) {
                     </div>
                 </div>
 
-                {/* <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
+                <div className={(showingNavigationDropdown ? 'block' : 'hidden') + ' sm:hidden'}>
                     <div className="pt-2 pb-3 space-y-1">
-                        <ResponsiveNavLink href={route('dashboard')} active={route().current('dashboard')}>
-                            Dashboard
+                        <ResponsiveNavLink href={route('home')} active={route().current('home')}>
+                            Главная
                         </ResponsiveNavLink>
                     </div>
 
                     <div className="pt-4 pb-1 border-t border-gray-200">
                         <div className="px-4">
-                            <div className="font-medium text-base text-gray-800">{user.name}</div>
-                            <div className="font-medium text-sm text-gray-500">{user.email}</div>
+                            {user && (
+                                <>
+                                    <div className="font-medium text-base text-gray-800">{user.name}</div>
+                                    <div className="font-medium text-sm text-gray-500">{user.email}</div>
+                                </>
+                            )}
                         </div>
 
                         <div className="mt-3 space-y-1">
-                            <ResponsiveNavLink href={route('profile.edit')}>Profile</ResponsiveNavLink>
-                            <ResponsiveNavLink method="post" href={route('logout')} as="button">
-                                Log Out
-                            </ResponsiveNavLink>
+                            {user ? (
+                                <>
+                                    <ResponsiveNavLink href={route('profile.edit')}>Профиль</ResponsiveNavLink>
+                                    <ResponsiveNavLink method="post" href={route('logout')} as="button">
+                                        Выйти
+                                    </ResponsiveNavLink>
+                                </>
+                            ) : (
+                                <ResponsiveNavLink href={route('login')}>Авторизоваться</ResponsiveNavLink>
+                            )}
                         </div>
                     </div>
-                </div> */}
+                </div>
             </nav>
 
             <main>{children}</main>
