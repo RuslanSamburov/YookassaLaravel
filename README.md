@@ -36,6 +36,10 @@ npm i
 ```bash
 php artisan migrate
 ```
+- Сборка React
+```bash
+npm run build
+```
 - Запуск сервера
 ```bash
 php artisan serve
