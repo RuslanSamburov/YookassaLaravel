@@ -16,7 +16,6 @@
     - yookassa.php
 
 Переименуйте файл `.env.example` в `.env` и заполните следующие поля:
-<br/>`YOOKASSA_NOTIFICATION_URL={DOMAIN}/api/pay/replenishment`
 <br/>`YOOKASSA_CLIENT_ID=`
 <br/>`YOOKASSA_CLIENT_SECRET=`
 <br/>`YOOKASSA_CURRENCY=RUB`
