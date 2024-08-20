@@ -20,6 +20,14 @@
 <br/>`YOOKASSA_CLIENT_SECRET=`
 <br/>`YOOKASSA_CURRENCY=RUB`
 
+<br/>`PUSHER_APP_ID=`
+<br/>`PUSHER_APP_KEY=`
+<br/>`PUSHER_APP_SECRET=`
+<br/>`PUSHER_HOST=`
+<br/>`PUSHER_PORT=`
+<br/>`PUSHER_SCHEME=`
+<br/>`PUSHER_APP_CLUSTER=`
+
 ## Команды
 
 Команды, которые необходимо выполнить:
@@ -35,6 +43,11 @@ npm i
 ```bash
 php artisan migrate
 ```
+- Создание ссылки хранилища
+```bash
+php artisan storage:link
+```
+
 - Сборка React
 ```bash
 npm run build
