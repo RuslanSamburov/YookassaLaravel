@@ -10,9 +10,6 @@ class YookassaEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    /**
-     * Create a new event instance.
-     */
     public function __construct(
         public array $data,
     ) {}

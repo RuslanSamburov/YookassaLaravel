@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Dropdown from '@/Components/Dropdown';
 import { Link } from '@inertiajs/react';
 import formatNumber from '@/methods/formatNumber';
@@ -12,14 +12,24 @@ export default function App({ user, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
     const [replenishmentButton, setReplenishmentButton] = useState(false);
     const [replenishmentIpunt, setReplenishmentInput] = useState('');
+    const [balance, setBalance] = useState(0);
+
+    useEffect(() => {
+        if (user) {
+            window.Echo.private('balance.' + user.id).listen('.stream-balance', e => {     
+                setBalance(e.balance)
+            });
+            setBalance(user.balance);
+        }
+    }, []);
 
     const onSubmitReplenishmentForm = async (data) => {
         data.preventDefault();
         setReplenishmentButton(true);
-        
+
         let form = data.target;
         let formData = new FormData(form);
-        
+
         try {
             let link = (await axios.post('/api/pay/createPayment', formData)).data.confirmation.confirmation_url;
 
@@ -43,7 +53,7 @@ export default function App({ user, children }) {
                     <div className="flex justify-between h-16">
                         <div className="flex">
                             <div className="hidden shrink-0 sm:flex items-center mr-5">
-                                <Link href="/">
+                                <Link href={route('home')}>
                                     <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
                                 </Link>
                             </div>
@@ -52,8 +62,8 @@ export default function App({ user, children }) {
                                 {user && (
                                     <>
                                         <div className="space-x-3 my-px flex">
-                                            <h2 className='text-gray-600 font-bold text-lg'>{formatNumber(user.balance)} руб</h2>
-                                            
+                                            <h2 className='text-gray-600 font-bold text-lg'>{formatNumber(balance)} руб</h2>
+
                                             <button onClick={() => setReplenishmentModal(true)} className='ml-2 px-2 py-1 bg-blue-500 text-sm text-white font-bold rounded hover:bg-blue-600 transition duration-300'>Пополнить</button>
                                         </div>
                                     </>
@@ -100,10 +110,10 @@ export default function App({ user, children }) {
                                 </div>
                             ) : (
                                 <Link
-                                        href={route('login')}
-                                        className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
-                                    >
-                                        Авторизоваться
+                                    href={route('login')}
+                                    className="rounded-md px-3 py-2 text-black ring-1 ring-transparent transition hover:text-black/70 focus:outline-none focus-visible:ring-[#FF2D20] dark:text-white dark:hover:text-white/80 dark:focus-visible:ring-white"
+                                >
+                                    Авторизоваться
                                 </Link>
                             )}
                         </div>
